@@ -24,14 +24,27 @@ class App extends React.Component  {
       position => {
         console.log(position);
         this.setState({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        error: null
-      });
-    },
-    error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
-      );
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null
+        });
+      },
+      error => this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 200000, maximumAge: 1000 }
+    );
+    navigator.geolocation.watchPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        this.setState({ latitude,longitude});
+      }, 
+      error => console.log(error),
+      { 
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+        distanceFilter: 10
+      }
+      );         
   }
    
   getMapRegion = () => ({
@@ -50,6 +63,7 @@ class App extends React.Component  {
       </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
