@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 
 const LATITUDE_DELTA = 0.009;
@@ -44,9 +44,13 @@ class App extends React.Component  {
   render() {
     return (
       <View style={styles.container}>
-        <MapView style={{ ...StyleSheet.absoluteFillObject }}
-                provider={PROVIDER_GOOGLE} 
-                region={this.getMapRegion()} />
+        <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={this.getMapRegion()} >
+   <Marker coordinate={this.getMapRegion()} />
+</MapView>
+        <MapView style={{ ...StyleSheet.absoluteFillObject }} provider={PROVIDER_GOOGLE} region={this.getMapRegion()} >
+          <Marker coordinate={this.getMapRegion()} />
+        </MapView>
+                  
       </View>
     );
   }
