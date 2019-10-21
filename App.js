@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker,Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 
 
 const LATITUDE_DELTA = 0.009;
@@ -15,7 +15,8 @@ class App extends React.Component  {
     this.state = {
      latitude: LATITUDE,
      longitude: LONGITUDE,
-     error: null
+     error: null,
+     routeCoordinates: [],
     };
    }
 
@@ -34,18 +35,16 @@ class App extends React.Component  {
     );
     navigator.geolocation.watchPosition(
       position => {
-        const { latitude, longitude } = position.coords;
-        this.setState({ latitude,longitude});
-      }, 
-      error => console.log(error),
-      { 
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 10
-      }
-      );         
-  }
+       const { latitude, longitude } = position.coords;
+       const { routeCoordinates } = this.state;
+       const newCoordinate = {  latitude,  longitude  };
+       this.setState({
+        latitude,
+        longitude,
+         routeCoordinates: routeCoordinates.concat([newCoordinate])
+       });      
+      })
+    }
    
   getMapRegion = () => ({
     latitude: this.state.latitude,
@@ -58,6 +57,7 @@ class App extends React.Component  {
     return (
       <View style={styles.container}>
         <MapView style={{ ...StyleSheet.absoluteFillObject }} provider={PROVIDER_GOOGLE} region={this.getMapRegion()} >
+          <Polyline coordinates={this.state.routeCoordinates} strokeWidth={2} />
           <Marker coordinate={this.getMapRegion()} />
         </MapView>                 
       </View>
