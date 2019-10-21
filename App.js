@@ -44,13 +44,9 @@ class App extends React.Component  {
   render() {
     return (
       <View style={styles.container}>
-        <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={this.getMapRegion()} >
-   <Marker coordinate={this.getMapRegion()} />
-</MapView>
         <MapView style={{ ...StyleSheet.absoluteFillObject }} provider={PROVIDER_GOOGLE} region={this.getMapRegion()} >
           <Marker coordinate={this.getMapRegion()} />
-        </MapView>
-                  
+        </MapView>                 
       </View>
     );
   }
